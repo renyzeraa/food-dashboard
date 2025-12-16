@@ -1,0 +1,11 @@
+{
+    "extends": ["@rocketseat/eslint-config/react", "simple-import-sort"],
+    "rules": {
+        "no-tabs": "off",
+        "simple-import-sort/imports": "error"
+    },
+    "parserOptions": {
+    "sourceType": "module",
+    "ecmaVersion": "latest"
+  }
+}
