@@ -11,7 +11,7 @@ export function AuthLayout() {
                 </div>
                 <footer className="text-sm">Painel do parceiro &copy; Food Dashboard - {new Date().getFullYear()}</footer>
             </div>
-            <div className="flex flex-col items-center justify-center">
+            <div className="flex flex-col items-center justify-center relative">
                 <Outlet />
             </div>
         </div>
