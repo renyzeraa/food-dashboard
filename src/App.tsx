@@ -3,6 +3,7 @@ import { RouterProvider } from 'react-router'
 import { router } from './routes'
 import { UnheadProvider } from '@unhead/react/client'
 import { head } from './lib/unhead'
+import { Toaster } from "sonner"
 
 import './style/index.css'
 
@@ -15,6 +16,11 @@ export function App() {
         <meta name="theme-color" content="#ffffff" />
       </Head>
       <RouterProvider router={router} />
+      <Toaster
+        richColors
+        closeButton
+        position='top-right'
+      />
     </UnheadProvider>
   )
 }

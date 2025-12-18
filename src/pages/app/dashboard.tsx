@@ -1,4 +1,4 @@
-import { PageHead } from '@/components/PageHead'
+import { PageHead } from '@/components/page-head'
 
 export function Dashboard() {
     return (
