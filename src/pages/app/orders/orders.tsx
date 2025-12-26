@@ -3,6 +3,7 @@ import { Table, TableBody, TableHead, TableHeader, TableRow } from "@/components
 import { OrderTableRow } from "./order-table-row";
 import { OrderTableFilters } from "./order-table-filters";
 import { Pagination } from "@/components/pagination";
+import { PageTitle } from "@/components/page-title";
 
 export function Orders() {
     return (
@@ -15,9 +16,7 @@ export function Orders() {
                 ogDescription="Plataforma de gerenciamento de alimentos"
             />
             <div className="flex gap-4 flex-col">
-                <h1 className="text-3xl font-bold tracking-tight">
-                    Pedidos
-                </h1>
+                <PageTitle title="Pedidos" />
                 <div className="space-y-2.5">
                     <OrderTableFilters />
 
