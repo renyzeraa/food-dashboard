@@ -4,8 +4,30 @@ import { OrderTableRow } from "./order-table-row";
 import { OrderTableFilters } from "./order-table-filters";
 import { Pagination } from "@/components/pagination";
 import { PageTitle } from "@/components/page-title";
+import { useQuery } from "@tanstack/react-query";
+import { getOrders } from "@/api/get-orders";
+import { useSearchParams } from "react-router";
+import z from "zod";
 
 export function Orders() {
+    const [searchParams, setSearchParams] = useSearchParams()
+
+    const pageIndex = z.coerce.number()
+        .transform(page => page - 1)
+        .parse(Number(searchParams.get("page")) || '1')
+
+    const { data: result } = useQuery({
+        queryFn: () => getOrders({ pageIndex }),
+        queryKey: ["orders", pageIndex],
+    })
+
+    function handlePaginationChange(newPageIndex: number) {
+        setSearchParams(prev => {
+            prev.set("page", String(newPageIndex + 1))
+            return prev
+        })
+    }
+
     return (
         <>
             <PageHead
@@ -35,14 +57,24 @@ export function Orders() {
                                 </TableRow>
                             </TableHeader>
                             <TableBody>
-                                {[1, 2, 3, 4, 5, 6, 7].map((order) => (
-                                    <OrderTableRow key={order} />
+                                {result && result.orders.map((order) => (
+                                    <OrderTableRow
+                                        key={order.orderId}
+                                        order={order}
+                                    />
                                 ))}
                             </TableBody>
                         </Table>
                     </div>
 
-                    <Pagination pageIndex={0} totalCount={100} perPage={10} />
+                    {result && (
+                        <Pagination
+                            pageIndex={result.meta.pageIndex}
+                            totalCount={result.meta.totalCount}
+                            perPage={result.meta.perPage}
+                            onPageChange={handlePaginationChange}
+                        />
+                    )}
                 </div>
             </div>
         </>

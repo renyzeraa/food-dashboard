@@ -2,32 +2,43 @@ import { Button } from "@/components/ui/button";
 import { TableCell, TableRow } from "@/components/ui/table";
 import { ArrowRight, X } from "lucide-react";
 import { OrderDetails } from "./order-details";
+import { OrderStatus } from "./order-status";
+import { formatDistanceToNow } from "date-fns"
+import { ptBR } from "date-fns/locale"
 
-export function OrderTableRow() {
+interface OrderTableRowProps {
+    order: {
+        customerName: string;
+        orderId: string;
+        createdAt: string;
+        status: "pending" | "canceled" | "processing" | "delivering" | "delivered";
+        total: number;
+    }
+}
+
+export function OrderTableRow({ order }: OrderTableRowProps) {
     return (
         <TableRow>
             <TableCell>
                 <OrderDetails />
             </TableCell>
             <TableCell className="font-mono text-xs font-medium">
-                1n23saxdsa9a9dsmrn38
+                {order.orderId}
             </TableCell>
             <TableCell className="text-muted-foreground">
-                2 horas
+                {formatDistanceToNow(new Date(order.createdAt), { addSuffix: true, locale: ptBR })}
             </TableCell>
             <TableCell>
-                <div className="flex items-center gap-2">
-                    <span className="size-2 rounded-full bg-green-500" />
-                    <span className="font-medium text-muted-foreground">
-                        Concluído
-                    </span>
-                </div>
+                <OrderStatus status={order.status} />
             </TableCell>
             <TableCell className="font-medium">
-                João Silva
+                {order.customerName}
             </TableCell>
             <TableCell className="font-medium">
-                R$ 150,00
+                {order.total.toLocaleString("pt-BR", {
+                    style: "currency",
+                    currency: "BRL",
+                })}
             </TableCell>
             <TableCell>
                 <Button variant="outline" size="xs">
