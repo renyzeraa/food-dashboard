@@ -39,7 +39,7 @@ export function OrderTableRow({ order }: OrderTableRowProps) {
                 {order.customerName}
             </TableCell>
             <TableCell className="font-medium">
-                {formatToBRL(order.total)}
+                {formatToBRL(order.total, true)}
             </TableCell>
             <TableCell>
                 <Button variant="outline" size="xs">

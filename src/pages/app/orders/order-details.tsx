@@ -89,10 +89,10 @@ export function OrderDetails({ orderId, isOpen, onOpenChange }: OrderDetailsProp
                                             <TableCell>{item.product.name}</TableCell>
                                             <TableCell className="text-right">{item.quantity}</TableCell>
                                             <TableCell className="text-right">
-                                                {formatToBRL(item.priceInCents)}
+                                                {formatToBRL(item.priceInCents, true)}
                                             </TableCell>
                                             <TableCell className="text-right">
-                                                {formatToBRL(item.priceInCents * item.quantity)}
+                                                {formatToBRL(item.priceInCents * item.quantity, true)}
                                             </TableCell>
                                         </TableRow>
                                     ))}
@@ -100,7 +100,7 @@ export function OrderDetails({ orderId, isOpen, onOpenChange }: OrderDetailsProp
                                 <TableFooter>
                                     <TableRow>
                                         <TableCell colSpan={3}>Total do pedido</TableCell>
-                                        <TableCell className="text-right font-medium">{formatToBRL(order.totalInCents)}</TableCell>
+                                        <TableCell className="text-right font-medium">{formatToBRL(order.totalInCents, true)}</TableCell>
                                     </TableRow>
                                 </TableFooter>
                             </Table>
