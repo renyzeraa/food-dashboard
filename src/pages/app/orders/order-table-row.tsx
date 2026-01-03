@@ -5,6 +5,8 @@ import { OrderDetails } from "./order-details";
 import { OrderStatus } from "./order-status";
 import { formatDistanceToNow } from "date-fns"
 import { ptBR } from "date-fns/locale"
+import { useState } from "react";
+import { formatToBRL } from "@/utils/formater";
 
 interface OrderTableRowProps {
     order: {
@@ -17,10 +19,12 @@ interface OrderTableRowProps {
 }
 
 export function OrderTableRow({ order }: OrderTableRowProps) {
+    const [isDetailsOpen, setIsDetailsOpen] = useState(false);
+
     return (
         <TableRow>
             <TableCell>
-                <OrderDetails />
+                <OrderDetails orderId={order.orderId} isOpen={isDetailsOpen} onOpenChange={setIsDetailsOpen} />
             </TableCell>
             <TableCell className="font-mono text-xs font-medium">
                 {order.orderId}
@@ -35,10 +39,7 @@ export function OrderTableRow({ order }: OrderTableRowProps) {
                 {order.customerName}
             </TableCell>
             <TableCell className="font-medium">
-                {order.total.toLocaleString("pt-BR", {
-                    style: "currency",
-                    currency: "BRL",
-                })}
+                {formatToBRL(order.total)}
             </TableCell>
             <TableCell>
                 <Button variant="outline" size="xs">
