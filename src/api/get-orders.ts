@@ -1,6 +1,6 @@
 import { api } from "@/lib/axios";
 
-interface GetOrdersResponse {
+export interface GetOrdersResponse {
     orders: {
         customerName: string;
         orderId: string;
