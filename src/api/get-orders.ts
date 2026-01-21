@@ -22,7 +22,7 @@ export interface GetOrdersParams {
     customerName?: string | null;
 }
 
-export async function getOrders({ pageIndex, status, orderId, customerName }: GetOrdersParams = { pageIndex: 0 }) {
+export async function getOrders({ pageIndex = 0, status, orderId, customerName }: GetOrdersParams) {
     const response = await api.get<GetOrdersResponse>("/orders", {
         params: {
             pageIndex,
