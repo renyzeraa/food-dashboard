@@ -8,7 +8,7 @@ interface PaginationProps {
     onPageChange: (newPageIndex: number) => Promise<void> | void;
 }
 
-export function Pagination({ pageIndex, totalCount, perPage, onPageChange }: PaginationProps) {
+export function Pagination({ pageIndex, totalCount, perPage, onPageChange }: Readonly<PaginationProps>) {
     const pages = Math.ceil(totalCount / perPage) || 1;
 
     return (
