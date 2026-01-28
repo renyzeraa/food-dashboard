@@ -4,6 +4,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { formatToBRL } from "@/utils/formater";
 import { useQuery } from "@tanstack/react-query";
 import { subDays } from "date-fns";
+import { Loader2 } from "lucide-react";
 import { useMemo, useState } from "react";
 import type { DateRange } from "react-day-picker";
 import { ResponsiveContainer, LineChart, YAxis, Line, XAxis, CartesianGrid } from 'recharts';
@@ -52,7 +53,7 @@ export function RevenueChart() {
             </CardHeader>
 
             <CardContent>
-                {chartData &&
+                {chartData ?
                     <ResponsiveContainer width="100%" height={240}>
                         <LineChart
                             data={chartData}
@@ -75,7 +76,11 @@ export function RevenueChart() {
                             <Line type="linear" dataKey="receipt" strokeWidth={2} stroke={colors.emerald[500]} />
                         </LineChart>
                     </ResponsiveContainer>
-                }
+                    : (
+                        <div className="flex h-60 w-full items-center justify-center">
+                            <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
+                        </div>
+                    )}
             </CardContent>
         </Card>
     )
