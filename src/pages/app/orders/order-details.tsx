@@ -8,6 +8,7 @@ import { OrderStatus } from "./order-status";
 import { formatDistanceToNow } from "date-fns";
 import { ptBR } from "date-fns/locale";
 import { formatToBRL } from "@/utils/formater";
+import { OrderDetailsSkeleton } from "./order-details-skeleton";
 
 interface OrderDetailsProps {
     orderId: string;
@@ -37,7 +38,7 @@ export function OrderDetails({ orderId, isOpen, onOpenChange }: OrderDetailsProp
                 </DialogHeader>
 
                 <div className="space-y-6">
-                    {order && (
+                    {order ? (
                         <>
                             <Table>
                                 <TableBody>
@@ -105,6 +106,8 @@ export function OrderDetails({ orderId, isOpen, onOpenChange }: OrderDetailsProp
                                 </TableFooter>
                             </Table>
                         </>
+                    ) : (
+                        <OrderDetailsSkeleton />
                     )}
                 </div>
             </DialogContent>
