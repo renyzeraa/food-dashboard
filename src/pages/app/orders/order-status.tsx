@@ -15,7 +15,7 @@ const orderStatusMap = {
     },
     processing: {
         bg: "bg-blue-500",
-        text: "Em processo"
+        text: "Em preparo"
     },
     delivering: {
         bg: "bg-purple-500",
@@ -30,7 +30,7 @@ const orderStatusMap = {
 export function OrderStatus({ status }: OrderStatus) {
     return (
         <div className="flex items-center gap-2">
-            <span className={cn(
+            <span data-testid="badge" className={cn(
                 "size-2 rounded-full",
                 orderStatusMap[status].bg
             )} />
