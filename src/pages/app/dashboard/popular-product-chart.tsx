@@ -1,4 +1,4 @@
-import { getPopularProducts } from "@/api/get-popular-porduct";
+import { getPopularProducts } from "@/api/get-popular-product";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useQuery } from "@tanstack/react-query";
 import { BarChart, Loader2 } from "lucide-react";

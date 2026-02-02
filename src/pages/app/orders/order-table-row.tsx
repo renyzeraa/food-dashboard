@@ -3,8 +3,8 @@ import { TableCell, TableRow } from "@/components/ui/table";
 import { ArrowRight, X } from "lucide-react";
 import { OrderDetails } from "./order-details";
 import { OrderStatus } from "./order-status";
-import { formatDistanceToNow } from "date-fns"
-import { ptBR } from "date-fns/locale"
+import { formatDistanceToNow } from "date-fns";
+import { ptBR } from "date-fns/locale";
 import { useState } from "react";
 import { formatToBRL } from "@/utils/formater";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
@@ -32,7 +32,7 @@ interface OrderTableRowProps {
     }
 }
 
-export function OrderTableRow({ order }: OrderTableRowProps) {
+export function OrderTableRow({ order }: Readonly<OrderTableRowProps>) {
     const [isDetailsOpen, setIsDetailsOpen] = useState(false);
     const queryClient = useQueryClient();
 
@@ -69,7 +69,7 @@ export function OrderTableRow({ order }: OrderTableRowProps) {
     const { mutateAsync: approveOrderFn, isPending: isApprovingOrder } =
         useMutation({
             mutationFn: approveOrder,
-            onSuccess: async (_, orderId) => {
+            onSuccess: async (_, { orderId }) => {
                 updateOrderStatusOnCache(orderId, 'processing')
             },
         })
@@ -77,7 +77,7 @@ export function OrderTableRow({ order }: OrderTableRowProps) {
     const { mutateAsync: cancelOrderFn, isPending: isCancelingOrder } =
         useMutation({
             mutationFn: cancelOrder,
-            onSuccess: async (_, orderId) => {
+            onSuccess: async (_, { orderId }) => {
                 updateOrderStatusOnCache(orderId, 'canceled')
             },
         })
@@ -85,7 +85,7 @@ export function OrderTableRow({ order }: OrderTableRowProps) {
     const { mutateAsync: dispatchOrderFn, isPending: isDispatchingOrder } =
         useMutation({
             mutationFn: dispatchOrder,
-            onSuccess: async (_, orderId) => {
+            onSuccess: async (_, { orderId }) => {
                 updateOrderStatusOnCache(orderId, 'delivering')
             },
         })
@@ -93,7 +93,7 @@ export function OrderTableRow({ order }: OrderTableRowProps) {
     const { mutateAsync: deliverOrderFn, isPending: isDeliveringOrder } =
         useMutation({
             mutationFn: deliverOrder,
-            onSuccess: async (_, orderId) => {
+            onSuccess: async (_, { orderId }) => {
                 updateOrderStatusOnCache(orderId, 'delivered')
             },
         })
@@ -124,7 +124,7 @@ export function OrderTableRow({ order }: OrderTableRowProps) {
                         variant="outline"
                         size="xs"
                         disabled={isApprovingOrder}
-                        onClick={() => approveOrderFn(order.orderId)}
+                        onClick={() => approveOrderFn({ orderId: order.orderId })}
                     >
                         <ArrowRight className="size-3" />
                         Aprovar
@@ -135,7 +135,7 @@ export function OrderTableRow({ order }: OrderTableRowProps) {
                         variant="outline"
                         size="xs"
                         disabled={isDispatchingOrder}
-                        onClick={() => dispatchOrderFn(order.orderId)}
+                        onClick={() => dispatchOrderFn({ orderId: order.orderId })}
                     >
                         <ArrowRight className="size-3" />
                         Em entrega
@@ -146,7 +146,7 @@ export function OrderTableRow({ order }: OrderTableRowProps) {
                         variant="outline"
                         size="xs"
                         disabled={isDeliveringOrder}
-                        onClick={() => deliverOrderFn(order.orderId)}
+                        onClick={() => deliverOrderFn({ orderId: order.orderId })}
                     >
                         <ArrowRight className="size-3" />
                         Em entrega
@@ -158,7 +158,7 @@ export function OrderTableRow({ order }: OrderTableRowProps) {
                     variant="ghost"
                     size="xs"
                     disabled={!["pending", "processing"].includes(order.status) || isCancelingOrder}
-                    onClick={() => cancelOrderFn(order.orderId)}
+                    onClick={() => cancelOrderFn({ orderId: order.orderId })}
                 >
                     <X className="size-3 " />
                     Cancelar

@@ -1,10 +1,10 @@
 import { api } from "@/lib/axios";
 
-interface UpdateProfileBody {
+export interface UpdateProfileRequest {
     name: string;
     description: string;
 }
 
-export async function updateProfile({ name, description }: UpdateProfileBody) {
+export async function updateProfile({ name, description }: UpdateProfileRequest) {
     await api.put("/profile", { name, description });
 }
