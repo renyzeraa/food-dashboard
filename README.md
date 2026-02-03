@@ -16,7 +16,7 @@ Food Dashboard é uma aplicação web desenvolvida para restaurantes gerenciarem
 
 - **Frontend**: React 19 + TypeScript
 - **Build Tool**: Vite
-- **Styling**: Tailwind CSS v4
+- **Styling**: Tailwind CSS v4 com @tailwindcss/vite
 - **State Management**: TanStack Query (React Query)
 - **Formulários**: React Hook Form + Zod
 - **UI Components**: Radix UI
@@ -24,8 +24,11 @@ Food Dashboard é uma aplicação web desenvolvida para restaurantes gerenciarem
 - **Roteamento**: React Router v7
 - **HTTP Client**: Axios
 - **Notificações**: Sonner
-- **Testing**: Vitest + Testing Library
+- **Testing**: Vitest + Testing Library + Playwright
+- **Mock API**: Mock Service Worker (MSW)
 - **Meta Tags**: Unhead
+- **Ícones**: Lucide React
+- **Utilitários**: date-fns, clsx, class-variance-authority, tailwind-merge
 
 ## 📦 Funcionalidades Principais
 
@@ -120,12 +123,113 @@ npm run test
 
 ## 📝 Scripts Disponíveis
 
-| Comando           | Descrição                          |
-| ----------------- | ---------------------------------- |
-| `npm run dev`     | Inicia servidor de desenvolvimento |
-| `npm run build`   | Cria build para produção           |
-| `npm run preview` | Visualiza build em produção        |
-| `npm run test`    | Executa testes automatizados       |
+| Comando            | Descrição                                   |
+| ------------------ | ------------------------------------------- |
+| `npm run dev`      | Inicia servidor de desenvolvimento          |
+| `npm run dev:mock` | Inicia servidor com dados mock (porta 3838) |
+| `npm run build`    | Cria build para produção                    |
+| `npm run preview`  | Visualiza build em produção                 |
+| `npm run test`     | Executa testes automatizados                |
+
+## ✅ Testes
+
+A aplicação possui uma cobertura completa de testes em diferentes níveis:
+
+### Testes Unitários e de Componentes
+
+Utilizamos **Vitest** com **Testing Library** para testes de componentes:
+
+```bash
+npm run test
+```
+
+Os testes unitários verificam:
+
+- Componentes de UI (Pagination, NavLink, OrderStatus)
+- Renderização correta de elementos
+- Interações do usuário
+- Chamadas de callbacks
+
+Exemplo de teste:
+
+```typescript
+it('should display the right amount of pages and results', () => {
+  const wrapper = render(
+    <Pagination
+      pageIndex={0}
+      totalCount={200}
+      perPage={10}
+      onPageChange={onPageChangeCallback}
+    />,
+  )
+  expect(wrapper.getByText('Página 1 de 20')).toBeInTheDocument()
+})
+```
+
+### Testes End-to-End (E2E)
+
+Utilizamos **Playwright** para testes de fluxo completo da aplicação:
+
+```bash
+npm run test:e2e
+```
+
+Os testes E2E cobrem:
+
+- **Dashboard**: Exibição de métricas (receita mensal, pedidos, cancelamentos)
+- **Autenticação**: Login com email válido/inválido, registro de restaurante
+- **Gerenciamento de Pedidos**: Listagem, filtros, paginação e ações
+- **Perfil**: Atualização de informações do restaurante
+
+Exemplo de teste E2E:
+
+```typescript
+test("display day orders amount metric", async ({ page }) => {
+  await page.goto("/", { waitUntil: "networkidle" });
+  await expect(page.getByText("20", { exact: true })).toBeVisible();
+  await expect(page.getByText("-5% desde o último dia")).toBeVisible();
+});
+```
+
+### Mock Service Worker (MSW)
+
+A aplicação utiliza **Mock Service Worker** para simular requisições HTTP durante testes e desenvolvimento:
+
+#### O que é MSW?
+
+MSW é uma biblioteca que intercepta requisições de rede (XHR e Fetch) em nível de navegador ou Node.js, permitindo você responder com dados mock sem alterar o código da aplicação.
+
+#### Como Funciona?
+
+1. **Service Worker**: MSW utiliza um Service Worker (`public/mockServiceWorker.js`) para interceptar requisições no navegador
+2. **Handlers**: Cada endpoint possui um handler mock em `src/api/mocks/handlers.ts` que define como responder
+3. **Setup**: O worker é inicializado via `src/api/mocks/setup.ts` quando em modo teste
+
+#### Handlers Disponíveis
+
+Todos os endpoints da API possuem mocks correspondentes:
+
+```
+✓ Autenticação: signIn, registerRestaurant
+✓ Perfil: getProfile, updateProfile, getManagedRestaurant
+✓ Dashboard: getDayOrdersAmount, getMonthOrdersAmount, getMonthCanceledOrdersAmount, getMonthReceipt
+✓ Análise: getDailyRevenueInPeriod, getPopularProducts
+✓ Pedidos: getOrders, getOrderDetails, approveOrder, cancelOrder, dispatchOrder, deliverOrder
+```
+
+#### Como Usar MSW em Testes
+
+O setup é automático via `test/setup.ts`. Durante os testes, todas as requisições são interceptadas e respondidas com dados mock, permitindo testes isolados e rápidos sem dependência de servidor real.
+
+#### Modo Desenvolvimento com Mock
+
+Para desenvolver usando dados mock sem servidor real:
+
+```bash
+npm run dev:mock
+```
+
+Isso inicia o servidor com a porta 3838 e ativa MSW automaticamente.
 
 ## 🎨 Customização
 
