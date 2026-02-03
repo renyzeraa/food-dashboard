@@ -4,7 +4,7 @@ test('sign up successfully', async ({ page }) => {
   await page.goto('/sign-up', { waitUntil: 'networkidle' })
 
   await page.getByLabel('Seu nome').fill('João Silva')
-  await page.getByLabel('Nome do restaurante').fill('Pizza Shop')
+  await page.getByLabel('Nome do restaurante').fill('Rocket Pizza')
   await page.getByLabel('Seu e-mail').fill('jhondoe@email.com')
   await page.getByLabel('Seu telefone').fill('123812641264')
 
