@@ -2,6 +2,10 @@
 
 Uma plataforma moderna de gerenciamento de restaurantes com análise de pedidos e receitas em tempo real.
 
+<img width="1906" height="791" alt="Image" src="https://github.com/user-attachments/assets/7959f73e-6636-4fe3-a392-124f2bdf2ca7" />
+
+<img width="1904" height="807" alt="Image" src="https://github.com/user-attachments/assets/91aabf24-dfd2-41e0-a908-a8dfd395b87c" />
+
 ## 📋 Sobre o Projeto
 
 Food Dashboard é uma aplicação web desenvolvida para restaurantes gerenciarem suas operações diárias de forma eficiente. A plataforma oferece:
